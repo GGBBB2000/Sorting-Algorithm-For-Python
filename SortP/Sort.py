@@ -19,16 +19,11 @@ def insertion(num):
 def selection(num):
     for i in range(len(num)):
         print(num)
-        min_num = num[i]
-        min_index = i;
-        tmp = num[i]
-        if i < len(num):
-            for j in range(i,len(num)):
-                if min_num > num[j]:
-                    min_num = num[j]
-                    min_index = j
-            num[min_index] = tmp
-            num[i] = min_num
+        min_index = i
+        for j in range(i,len(num)):
+            if num[min_index] > num[j]:
+                min_index = j
+        num[i], num[min_index] = num[min_index], num[i]
     return num
 def shaker(num):
     for i in range(len(num)):
