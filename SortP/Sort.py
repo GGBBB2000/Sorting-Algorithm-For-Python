@@ -51,7 +51,26 @@ def shaker(num):
 
 
 def quick(num):
-    pass
+    pivot = len(num) - 1
+    if len(num) == 1:
+        return num
+    for left in range(len(num)):
+        if num[left] > num[pivot]:
+            for right in reversed(range(len(num))):
+                if num[left] == num[right]:
+                    num[left], num[pivot] = num[pivot], num[left]
+                    left_num = quick(num[:pivot])
+                    right_num = quick(num[pivot:]) 
+                    return left_num.append(right_num)
+                    break;
+                elif num[right] < num[pivot]:
+                    num[left], num[right] = num[right], num[left]
+                    break;
+        elif num[left] == num[pivot]:
+            left_num = quick(num[:pivot])
+            return left_num.append(num[pivot]) 
+
+
 
 ###############################################################
 
@@ -108,7 +127,7 @@ def bogo(num):
 
 if __name__ == "__main__":
     num = [random.randint(0, 10000) for _ in range(10000)]
-    start = time.time()
+    # start = time.time()
     # print("bubble:" + str(bubble(num)))
     # print("Bubble:"+str(bubble(num)))
     # print("Insertion:"+str(insertion(num)))
@@ -116,4 +135,4 @@ if __name__ == "__main__":
     # print("Shaker:"+str(shaker(num)))
     # print("Merge:"+str(merge_sort(num)))
     # print("Bogo: + str(bogo(num))
-    print(time.time() - start)
+    print("Quick:" + str(quick(num)))
