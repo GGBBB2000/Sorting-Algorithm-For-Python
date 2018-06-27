@@ -50,26 +50,39 @@ def shaker(num):
     return num
 
 
-def quick(num):
-    pivot = len(num) - 1
-    if len(num) == 1:
-        return num
-    for left in range(len(num)):
-        if num[left] > num[pivot]:
-            for right in reversed(range(len(num))):
-                if num[left] == num[right]:
-                    num[left], num[pivot] = num[pivot], num[left]
-                    left_num = quick(num[:pivot])
-                    right_num = quick(num[pivot:]) 
-                    return left_num.append(right_num)
-                    break;
-                elif num[right] < num[pivot]:
-                    num[left], num[right] = num[right], num[left]
-                    break;
-        elif num[left] == num[pivot]:
-            left_num = quick(num[:pivot])
-            return left_num.append(num[pivot]) 
+###############################################################
 
+
+def mid(x, y, z):
+    if x > y:
+        if x > z:
+            return z
+        else:
+            return x
+    else:
+        if y > z:
+            return y
+        else:
+            return z
+
+
+def quick(num, left, right):
+    if left < right:
+        i, j = left, right
+        pivot = mid(num[i], num[int(i + (j - i) / 2)], num[j])
+        while True:
+            while num[i] < pivot:
+                i += 1
+            while pivot < num[j]:
+                j -= 1
+            if i >= j:
+                break
+            num[i], num[j] = num[j], num[i]
+            i += 1
+            j -= 1
+        quick(num, left, i - 1)
+        quick(num, j + 1, right)
+    return num
 
 
 ###############################################################
@@ -88,6 +101,9 @@ def merge_sort(num):
     right = merge_sort(right)
     left = merge_sort(left)
     return merge(left, right)
+
+
+###############################################################
 
 
 def merge(left, right):
@@ -126,13 +142,15 @@ def bogo(num):
 
 
 if __name__ == "__main__":
-    num = [random.randint(0, 10000) for _ in range(10000)]
-    # start = time.time()
+    # num = [random.randint(0, 10) for _ in range(10)]
+    num = [10, 7, 3, 2, 8, 9, 1, 0]
+    start = time.time()
     # print("bubble:" + str(bubble(num)))
     # print("Bubble:"+str(bubble(num)))
     # print("Insertion:"+str(insertion(num)))
     # print("Selection:"+str(selection(num)))
     # print("Shaker:"+str(shaker(num)))
     # print("Merge:"+str(merge_sort(num)))
-    # print("Bogo: + str(bogo(num))
-    print("Quick:" + str(quick(num)))
+    # print("Bogo:" + str(bogo(num)))
+    print("Quick:" + str(quick(num, 0, len(num) - 1)))
+    print("%d" % (time.time() - start))
