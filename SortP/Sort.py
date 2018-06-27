@@ -142,8 +142,9 @@ def bogo(num):
 
 
 if __name__ == "__main__":
-    # num = [random.randint(0, 10) for _ in range(10)]
-    num = [10, 7, 3, 2, 8, 9, 1, 0]
+    rangeMax = 10000000
+    num = [random.randint(0, rangeMax) for _ in range(rangeMax)]
+    # num = [10, 7, 3, 2, 8, 9, 1, 0]
     start = time.time()
     # print("bubble:" + str(bubble(num)))
     # print("Bubble:"+str(bubble(num)))
@@ -152,5 +153,5 @@ if __name__ == "__main__":
     # print("Shaker:"+str(shaker(num)))
     # print("Merge:"+str(merge_sort(num)))
     # print("Bogo:" + str(bogo(num)))
-    print("Quick:" + str(quick(num, 0, len(num) - 1)))
-    print("%d" % (time.time() - start))
+    # print("Quick:" + str(quick(num, 0, len(num) - 1)))
+    print("%f sec" % (time.time() - start))
