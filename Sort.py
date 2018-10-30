@@ -1,8 +1,6 @@
 import random
 import time
 
-swap_count = 0
-compare_count = 0 
 def bubble(num):
     global swap_count
     global compare_count 
@@ -10,7 +8,7 @@ def bubble(num):
         for j in range(i):
             # print(num)
             if num[j] > num[j + 1]:
-                num[j], num[j + 1] = num[j + 1], num[j]
+                num[j], num[j + 1] = num[j + 1], num[j] 
                 compare_count += 1
             swap_count += 1
     return num
@@ -32,6 +30,24 @@ def insertion(num):
         compare_count += 1
     return num
 
+
+def binary_insertion(num):
+    # print(num)
+    for i in range(1, len(num)):
+        left = 0
+        right = i 
+        # print(num[:right])
+        while (left < right):
+            mid = (left + right) // 2
+            if num[mid] > num[i]:
+                right = mid
+            else:
+                left = mid + 1
+        j = i 
+        while j > left:
+            num[j - 1], num[j] = num[j], num[j - 1]
+            j -= 1
+    return num
 
 def selection(num):
     global swap_count
@@ -129,6 +145,24 @@ def merge_sort(num):
     return merge(left, right)
 
 
+def tim_sort(num):
+    global compare_count
+    global swap_count
+    if len(num) <= 32:
+        # return binary_insertion(num) 
+        return insertion(num) 
+
+    mid = len(num) // 2
+
+    left = num[:mid]
+    right = num[mid:]
+    # print("num_left" + str(left))
+    # print("num_right" + str(right))
+    right = tim_sort(right)
+    left = tim_sort(left)
+    return merge(left, right)
+
+
 ###############################################################
 
 
@@ -174,9 +208,11 @@ def bogo(num):
 
 
 if __name__ == "__main__":
+    global compare_count
+    global swap_count
     compare_count = 0
     swap_count = 0
-    rangeMax = 1000000 
+    rangeMax = 10000000
     num = [random.randint(0, rangeMax) for _ in range(rangeMax)]
     # num = [10, 7, 3, 2, 8, 9, 1, 0]
     start = time.time()
@@ -187,5 +223,7 @@ if __name__ == "__main__":
     # print("Merge:"+str(merge_sort(num)))
     # print("Bogo:" + str(bogo(num)))
     # print("Quick:" + str(quick(num, 0, len(num) - 1)))
+    # print("Binary insertion:" + str(binary_insertion(num)))
+    # print("Tim:" + str(tim_sort(num)))
     print("%f sec" % (time.time() - start))
     print("Swap count:%ld, Compare count:%ld" % (swap_count, compare_count))
